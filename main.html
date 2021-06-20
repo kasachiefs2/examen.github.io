@@ -1,8 +1,39 @@
-<!DOCTYPE html>
+<!DOCTYPEhtml>
+<head>
+<title>Boleta</title>
+<metacharset="UTF-8">
+<metaname="viewport"content="width=device-width,initial-scale=1.0">
+<link rel="stylesheet" href="css/boletas.css">
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-analytics.js"></script>
+<script src="js/init.js"></script>
+</head>
 <body>
+    <script>
+const auth = firebase.auth();
+const provider = new firebase.auth.GoogleAuthProvider();
+provider.setCustomParameters({prompt: "select_account" });
+auth.onAuthStateChanged(
+    usuarioAuth=>{
+        if(usuarioAuth && usuarioAuth.email) {
+            email.value = usuarioAuth.email;
+            nombre.value = usuarioAuth.displayName;
+            avatar.src = usuarioAuth.photoURL;
+        } else {
+            auth.signInWithRedirect(provider);
+        }
+    },
+    procesaError
+);
+async function terminaSesión() {
+    try {
+        await auth.signOut();
+    } catch{
+        procesaError(e);
+    }
+}
 
-    <button onclick="redirect()">Replace document</button>
-<!--<meta http-equiv="refresh" content="0; boletas.html" />-->
 
+</script>
 <script src="js/main.js"></script>
 </body>
